@@ -28,6 +28,10 @@ Systems (IEEE TNNLS).
 We also provide here the experimental code for the experiments shown in the
 paper.
 
+If you use this code in academic work, please cite the paper
+
+* Paaßen, Schulz, Stewart, and Hammer (submitted). Reservoir Memory Machines as Neural Computers. arXiv
+
 ## Quickstart Guide
 
 To train your own reservoir memory machine, use the following code.
@@ -72,6 +76,10 @@ This repository contains the following files.
 * `LICENSE.md` : A copy of the [GNU GPLv3][GPLv3].
 * `README.md` : This file.
 * `rmm2/crj.py` : An implementation of [cycle reservoirs with jumps (Rodan and Tiňo, 2012)][CRJ].
+* `rmm2/deep_memory_machine.py` : A [pyTorch][torch] implementation of a
+  deep learning variation of our reservoir memory machine.
+* `rmm2/deep_memory_machine_test.py` : A unit test suite for
+  `deep_memory_machine.py`.
 * `rmm2/esn.py` : An implementation of [echo state networks (Jaeger and Haas, 2004)][ESN].
 * `rmm2/fsm.py` : An implementation of [Moore machines (Moore, 1956)][FSM].
 * `rmm2/lmu.py` : An implementation of [Legendre delay networks (Voelker, Kajić, and Eliasmith, 2019)][LMU].
@@ -98,7 +106,7 @@ experiments additionally depend on [pyTorch][torch].
 
 ## Literature
 
-* Paaßen, Schulz, Stewart, and Hammer (submitted). Reservoir Memory Machines as Neural Computers. IEEE Transactions on Neural Networks and Learning Systems.
+* Paaßen, Schulz, Stewart, and Hammer (submitted). Reservoir Memory Machines as Neural Computers. arXiv:TODO
 * Jaeger and Haas (2004). Harnessing nonlinearity: Predicting chaotic systems and saving energy in wireless communication. Science, 304(5667), 78-80. doi:[10.1126/science.1091277][ESN]
 * Moore (1956). Gedanken-experiments on sequential machines. Automata Studies (34), 129-153. [Link][FSM]
 * Rodan and Tino (2012). Simple Deterministically Constructed Cycle Reservoirs with Regular Jumps. Neural Compuation, 24(7), 1822-1852. doi:[10.1162/NECO_a_00297][CRJ]
