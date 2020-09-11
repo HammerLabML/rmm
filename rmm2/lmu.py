@@ -4,9 +4,6 @@ Implements Legendre delay networks as proposed by Voelker, Kajić, and Eliasmith
 
 https://papers.nips.cc/paper/9689-legendre-memory-units-continuous-time-representation-in-recurrent-neural-networks
 
-The code is a slight variation of the original code as kindly provided by
-Terry Stewart.
-
 """
 
 # Copyright (C) 2020
@@ -71,26 +68,32 @@ def initialize_reservoir(n, degree, T):
 
     q = degree+1
 
-    # Do Aaron's math to generate the matrices
-    # https://github.com/arvoelke/nengolib/blob/master/nengolib/synapses/analog.py#L536
-    Q = np.arange(q, dtype=np.float64)
-    R = (2*Q + 1)
-    j, i = np.meshgrid(Q, Q)
-
-    # Set up the recurrent and input matrix for each channel
-    A = np.where(i < j, -1, (-1.)**(i-j+1)) * R[:, None]
-    B = (-1.)**Q * R
+    # set up the continuous linear system according to the definitions in the
+    # paper
+    A = np.zeros((q, q))
+    b = np.zeros(q)
+    for i in range(q):
+        coeff = (2*i+1)
+        A[i, i+1:] = -coeff
+        if i % 2 == 0:
+            A[i, 1:i+1:2] = coeff
+            A[i, :i+1:2] = -coeff
+            b[i] = coeff
+        else:
+            A[i, 1:i+1:2] = -coeff
+            A[i, :i+1:2] = coeff
+            b[i] = -coeff
 
     # Handle the fact that we're discretizing the time step
     # https://en.wikipedia.org/wiki/Discretization#Discretization_of_linear_state_space_models
     Ad = expm(A / T)
-    Bd = np.dot(np.dot(np.linalg.inv(A), (Ad-np.eye(q))), B)
+    bd = np.dot(np.dot(np.linalg.inv(A), (Ad-np.eye(q))), b)
 
     # To generate the output, we need to copy these matrices n times.
     m = q * n
     U = np.zeros((m, n))
     for k in range(n):
-        U[k*q:(k+1)*q, k] = Bd
+        U[k*q:(k+1)*q, k] = bd
     # To set up W we use a sparse matrix representation
     rows = []
     cols = []
