@@ -28,7 +28,7 @@ paper.
 
 If you use this code in academic work, please cite the paper
 
-* Paaßen, Schulz, Stewart, and Hammer (submitted). Reservoir Memory Machines as Neural Computers. arXiv
+* Paaßen, Schulz, Stewart, and Hammer (2020). Reservoir Memory Machines as Neural Computers. arXiv:[2009.06342][RMM]
 
 ## Quickstart Guide
 
@@ -104,7 +104,7 @@ experiments additionally depend on [pyTorch][torch].
 
 ## Literature
 
-* Paaßen, Schulz, Stewart, and Hammer (submitted). Reservoir Memory Machines as Neural Computers. arXiv:TODO
+* Paaßen, Schulz, Stewart, and Hammer (2020). Reservoir Memory Machines as Neural Computers. arXiv:[2009.06342][RMM]
 * Jaeger and Haas (2004). Harnessing nonlinearity: Predicting chaotic systems and saving energy in wireless communication. Science, 304(5667), 78-80. doi:[10.1126/science.1091277][ESN]
 * Moore (1956). Gedanken-experiments on sequential machines. Automata Studies (34), 129-153. [Link][FSM]
 * Rodan and Tino (2012). Simple Deterministically Constructed Cycle Reservoirs with Regular Jumps. Neural Compuation, 24(7), 1822-1852. doi:[10.1162/NECO_a_00297][CRJ]
@@ -119,3 +119,4 @@ experiments additionally depend on [pyTorch][torch].
 [ESN]:https://doi.org/10.1126/science.1091277 "Jaeger and Haas (2004). Harnessing nonlinearity: Predicting chaotic systems and saving energy in wireless communication. Science, 304(5667), 78-80. doi:10.1126/science.1091277"
 [FSM]:http://www.jstor.org/stable/j.ctt1bgzb3s.8 "Moore (1956). Gedanken-experiments on sequential machines. Automata Studies (34), 129-153."
 [LMU]:http://papers.nips.cc/paper/9689-legendre-memory-units-continuous-time-representation-in-recurrent-neural-networks "Voelker, Kajić, and Eliasmith (2019). Legendre Memory Units: Continuous-Time Representation in Recurrent Neural Networks. In: Wallach, Larochelle, Beygelzimer, d'Alché-Buc, Fox, and Garnett. (eds.). Proceedings of the 32nd International Conference on Advances in Neural Information Processing Systems 32 (NeurIPS 2019), 15570--15579."
+[RMM]:https://arxiv.org/abs/2009.06342 "Paaßen, Schulz, Stewart, and Hammer (2020). Reservoir Memory Machines as Neural Computers. arXiv:2009.06342"
