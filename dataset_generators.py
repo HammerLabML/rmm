@@ -25,6 +25,7 @@ handling.
 
 import random
 import numpy as np
+import csv
 
 __author__ = 'Benjamin Paaßen'
 __copyright__ = 'Copyright 2020, Benjamin Paaßen'
@@ -63,6 +64,8 @@ def generate_data(N, task_name):
         return repeat_copy_task(N)
     elif task_name == 'signal_copy':
         return signal_copy_task(N)
+    elif task_name == 'image_copy':
+        return image_copy_task(N)
     else:
         raise ValueError('Unknown task: %s' % task_name)
 
@@ -295,9 +298,6 @@ def signal_copy_task(N, T_signal = 256, max_repeats = 10, force_length = False):
     of these markers, whereupon the output should be a copy of the random wavelet
     associated with it.
 
-    Note that it is ensured that equally many sequences for each
-    number of repeats are generated.
-
     Parameters
     ----------
     N: int
@@ -398,6 +398,102 @@ def signal_copy_task(N, T_signal = 256, max_repeats = 10, force_length = False):
         Qs.append(Q)
         Ys.append(Y)
     # return
+    return Xs, Qs, Ys
+
+_MNIST_SIZE_ = 28
+_MNIST_ROWS_ = 70000
+
+def image_copy_task(N, max_repeats = 10, force_length = False, sharpen = False, data_path = 'mnist_784.csv'):
+    """ Generates N sequences for the image copy task.
+
+    This task is newly devised for this paper. The input consists of
+    a random MNIST image which shall be recalled whenever a special token
+    occurs on the input.
+
+    Note that this function requires the file 'mnist_784.csv' from
+    https://www.openml.org/d/554 .
+
+    Parameters
+    ----------
+    N: int
+        The number of sequences to be generated.
+    max_repeats: int (default = 10)
+        The maximum number of times the input image shall be copied.
+    force_length: bool (default = False)
+        If set to true, all sequences have exactly max_repeats repeats.
+    data_path: str (default = 'mnist_784.csv')
+        Path to the mnist data set as csv file, where each image is a row
+        with 785 entries, the last entry being the label.
+
+    Returns
+    -------
+    Xs: list
+        The list of input sequences, each of size 28 * (R+1) x 28 with
+        R in [1, max_repeats]. X[:28, :] contains the MNIST image and
+        X[28*r, :] for all r in {1, ..., R} contains a special marker token,
+        and X is zero everywhere else.
+    Qs: list
+        The list of state sequences, each of length 28 * (R+1)
+        The state is zero except at positions 28, 56, ..., R*28 where
+        it is one.
+    Ys: list
+        The list of output sequences of size 28 * (R+1) x 28.
+        In each block of length 28, the output is a copy of the MNIST image
+        X[:28, :].
+
+    """
+    # start by generating the number of repeats
+    if force_length:
+        Rs = np.full(N, max_repeats, dtype=int)
+    else:
+        Rs = _permutation_sampling(N, 1, max_repeats)
+    # select a random image for each sequence to be generated
+    subset = np.random.choice(_MNIST_ROWS_, size = N, replace = False)
+    # load these images from CSV
+    Images = np.zeros((N, _MNIST_SIZE_, _MNIST_SIZE_))
+    with open(data_path) as f:
+        l = 0
+        for j in np.argsort(subset):
+            while l < subset[j]:
+                f.__next__()
+                l += 1
+            line = np.fromstring(f.__next__(), dtype=int, sep=',')
+            l += 1
+            Images[j, :, :] = np.reshape(line[:-1], (_MNIST_SIZE_, _MNIST_SIZE_))
+    # if so desired, we sharpen the images to be either 0 or 1 at each point
+    if sharpen:
+        Images[Images < 128] = 0
+        Images[Images >= 128] = 1
+    # start generating sequences
+    Xs = []
+    Qs = []
+    Ys = []
+    for j in range(N):
+        # initialize the input and output sequence
+        T = (Rs[j] + 1) * _MNIST_SIZE_
+        X = np.zeros((T, _MNIST_SIZE_))
+        Q = np.zeros(T)
+        Y = np.zeros((T, _MNIST_SIZE_))
+        # put the current image at the start of X
+        X[:_MNIST_SIZE_, :] = Images[j, :, :]
+        # then construct the rest of the sequence
+        for r in range(Rs[j]):
+            lo = (r+1)*_MNIST_SIZE_
+            hi = (r+2)*_MNIST_SIZE_
+            # put a special marker token at X[r*_MNIST_SIZE_, :] for each repititon
+            if sharpen:
+                X[lo, :] = 1
+            else:
+                X[lo, :] = 256
+            # recall state 1 whenever that occurs
+            Q[lo] = 1
+            # and copy the image to the output
+            Y[lo:hi, :] = Images[j, :, :]
+        # append to training data
+        Xs.append(X)
+        Qs.append(Q)
+        Ys.append(Y)
+
     return Xs, Qs, Ys
 
 def _permutation_sampling(N, min_param, max_param):
