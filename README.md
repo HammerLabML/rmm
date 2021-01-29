@@ -73,6 +73,7 @@ This repository contains the following files.
 * `fsms.ipynb` : A notebook for the finite state machine experiments.
 * `LICENSE.md` : A copy of the [GNU GPLv3][GPLv3].
 * `README.md` : This file.
+* `results` : A folder containing reference results on all tasks.
 * `rmm2/crj.py` : An implementation of [cycle reservoirs with jumps (Rodan and Tiňo, 2012)][CRJ].
 * `rmm2/deep_memory_machine.py` : A [pyTorch][torch] implementation of a
   deep learning variation of our reservoir memory machine.
