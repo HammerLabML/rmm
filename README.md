@@ -28,7 +28,7 @@ paper.
 
 If you use this code in academic work, please cite the paper
 
-* Paaßen, Schulz, Stewart, and Hammer (2020). Reservoir Memory Machines as Neural Computers. arXiv:[2009.06342][RMM]
+* Paaßen, Schulz, Stewart, and Hammer (2020). Reservoir Memory Machines as Neural Computers. IEEE Transactions on Neural Networks and Learning Systems. in print. doi:[10.1109/TNNLS.2021.3094139](https://doi.org/10.1109/TNNLS.2021.3094139). arXiv:[2009.06342][RMM]
 
 ## Quickstart Guide
 
@@ -105,7 +105,7 @@ experiments additionally depend on [pyTorch][torch].
 
 ## Literature
 
-* Paaßen, Schulz, Stewart, and Hammer (2020). Reservoir Memory Machines as Neural Computers. arXiv:[2009.06342][RMM]
+* Paaßen, Schulz, Stewart, and Hammer (2020). Reservoir Memory Machines as Neural Computers. IEEE Transactions on Neural Networks and Learning Systems. in print. doi:[10.1109/TNNLS.2021.3094139](https://doi.org/10.1109/TNNLS.2021.3094139). arXiv:[2009.06342][RMM]
 * Jaeger and Haas (2004). Harnessing nonlinearity: Predicting chaotic systems and saving energy in wireless communication. Science, 304(5667), 78-80. doi:[10.1126/science.1091277][ESN]
 * Moore (1956). Gedanken-experiments on sequential machines. Automata Studies (34), 129-153. [Link][FSM]
 * Rodan and Tino (2012). Simple Deterministically Constructed Cycle Reservoirs with Regular Jumps. Neural Compuation, 24(7), 1822-1852. doi:[10.1162/NECO_a_00297][CRJ]
